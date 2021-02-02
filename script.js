@@ -1,9 +1,12 @@
 // Canvas
 const { body } = document;
+const canvas = document.createElement('canvas') // this crates the game board
+const context = canvas.getContext('2d');  // creates 2d borad
 
-
+// sets width and height of the canvas
 const width = 500;
 const height = 700;
+
 const screenWidth = window.screen.width;
 const canvasPosition = screenWidth / 2 - width / 2;
 const isMobile = window.matchMedia('(max-width: 600px)');
@@ -50,42 +53,45 @@ const winningScore = 7;
 // Render Everything on Canvas
 function renderCanvas() {
   // Canvas Background
-  // context.fillStyle = 'black';
-  // context.fillRect(0, 0, width, height);
+  context.fillStyle = 'black';
+  context.fillRect(0, 0, width, height);
 
   // Paddle Color
-  // context.fillStyle = 'white';
+  context.fillStyle = 'white';
 
   // Player Paddle (Bottom)
-  // context.fillRect(paddleBottomX, height - 20, paddleWidth, paddleHeight);
+  context.fillRect(paddleBottomX, height - 20, paddleWidth, paddleHeight); // this is the paddle height and width like the computer and the player
 
   // Computer Paddle (Top)
-  // context.fillRect(paddleTopX, 10, paddleWidth, paddleHeight);
+  context.fillRect(paddleTopX, 10, paddleWidth, paddleHeight);
 
   // Dashed Center Line
-  // context.beginPath();
-  // context.setLineDash([4]);
-  // context.moveTo(0, 350);
-  // context.lineTo(500, 350);
-  // context.strokeStyle = 'grey';
-  // context.stroke();
+  context.beginPath();
+  context.setLineDash([4]);
+  context.moveTo(0, 350);
+  context.lineTo(500, 350);
+  context.strokeStyle = 'grey';
+  context.stroke();
 
   // Ball
-  // context.beginPath();
-  // context.arc(ballX, ballY, ballRadius, 2 * Math.PI, false);
-  // context.fillStyle = 'white';
-  // context.fill();
+  context.beginPath();
+  context.arc(ballX, ballY, ballRadius, 2 * Math.PI, false); // creates the ball
+  context.fillStyle = 'white';
+  context.fill(); // using white color to pop
 
   // Score
-  // context.font = '32px Courier New';
-  // context.fillText(playerScore, 20, canvas.height / 2 + 50);
-  // context.fillText(computerScore, 20, canvas.height / 2 - 30);
+  context.font = '32px Courier New';
+  context.fillText(playerScore, 20, canvas.height / 2 + 50);
+  context.fillText(computerScore, 20, canvas.height / 2 - 30);
 }
 
 // Create Canvas Element
 function createCanvas() {
+  // setting up height and width
   canvas.width = width;
   canvas.height = height;
+
+  //appending canvas
   body.appendChild(canvas);
   renderCanvas();
 }
@@ -204,9 +210,9 @@ function gameOver() {
 
 // Called Every Frame
 function animate() {
-  renderCanvas();
-  ballMove();
-  ballBoundaries();
+  renderCanvas();// reredner canvas every frame
+  ballMove(); // control the speed of the ball
+  ballBoundaries(); // ball makes contnact with the frame left and right side boun off and change directions.
   computerAI();
   
 }
@@ -221,11 +227,11 @@ function startGame() {
   // isNewGame = ;
   playerScore = 0;
   computerScore = 0;
-  ballReset();
+  ballReset(); // puts the ball in center
   createCanvas();
   animate();
   canvas.addEventListener('mousemove', (e) => {
-    console.log(e.clientX);
+
     playerMoved = true;
     // Compensate for canvas being centered
     paddleBottomX = e.clientX - canvasPosition - paddleDiff;
@@ -241,4 +247,4 @@ function startGame() {
 }
 
 // On Load
-// startGame();
+startGame();
